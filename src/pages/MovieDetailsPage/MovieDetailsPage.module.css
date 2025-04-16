@@ -1,0 +1,8 @@
+.container {
+    padding: 20px;
+}
+
+.details {
+    display: flex;
+    gap: 20px;
+}
