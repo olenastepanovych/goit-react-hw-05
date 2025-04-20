@@ -1,7 +1,25 @@
+/* src/components/MovieList/MovieList.module.css */
 .list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+    padding: 16px;
+}
+
+.item {
     list-style: none;
-    padding: 0;
+    text-align: center;
 }
-.list li {
-    margin-bottom: 10px;
+
+.poster {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
 }
+
+.title {
+    margin-top: 8px;
+    font-weight: 600;
+    font-size: 14px;
+}
+

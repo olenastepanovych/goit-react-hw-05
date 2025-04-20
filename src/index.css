@@ -67,9 +67,13 @@ button:focus-visible {
   }
 } */
 
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
-  background-color: #ffffff;
-  color: #333;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #fdfdfd;
+  color: #222;
 }
+

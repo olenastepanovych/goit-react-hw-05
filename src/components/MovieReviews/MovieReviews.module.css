@@ -1,4 +1,19 @@
-.reviews {
-    list-style: none;
-    padding: 0;
+/* src/components/MovieReviews/MovieReviews.module.css */
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
+.item {
+    padding: 12px;
+    background: #f6f6f6;
+    border-radius: 8px;
+}
+.author {
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+.content {
+    font-size: 15px;
+}
+

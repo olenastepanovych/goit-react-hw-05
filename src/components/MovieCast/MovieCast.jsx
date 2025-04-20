@@ -1,28 +1,30 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getMovieCast } from '../../App';
+// src/components/MovieCast/MovieCast.jsx
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getMovieCredits, getImageUrl } from "../../services/api";
+import styles from "./MovieCast.module.css";
 
 function MovieCast() {
 const { movieId } = useParams();
 const [cast, setCast] = useState([]);
 
 useEffect(() => {
-    getMovieCast(movieId).then(setCast).catch(console.error);
+    getMovieCredits(movieId).then(setCast).catch(console.error);
 }, [movieId]);
 
+if (!cast.length) return <p>No cast info available.</p>;
+
 return (
-    <ul>
-    {cast.map(({ id, name, profile_path, character }) => (
-        <li key={id}>
-        {profile_path && (
-            <img
-            src={`https://image.tmdb.org/t/p/w200${profile_path}`}
+    <ul className={styles.list}>
+    {cast.map(({ cast_id, profile_path, name, character }) => (
+        <li key={cast_id} className={styles.item}>
+        <img
+            src={getImageUrl(profile_path) || "/no-avatar.png"}
             alt={name}
-            width="100"
-            />
-        )}
-        <p>{name}</p>
-        <p>Character: {character}</p>
+            className={styles.photo}
+        />
+        <p className={styles.name}>{name}</p>
+        <p className={styles.char}>as {character}</p>
         </li>
     ))}
     </ul>
@@ -30,3 +32,5 @@ return (
 }
 
 export default MovieCast;
+
+

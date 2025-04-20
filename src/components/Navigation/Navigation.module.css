@@ -1,16 +1,16 @@
+/* src/components/Navigation/Navigation.module.css */
 .nav {
+    padding: 16px;
     display: flex;
-    gap: 20px;
-    padding: 20px;
-    background-color: #f5f5f5;
+    gap: 12px;
+    background-color: #0d253f;
 }
-
 .link {
+    color: #fff;
     text-decoration: none;
     font-weight: bold;
-    color: #333;
+}
+.active {
+    color: #1ed5a9;
 }
 
-.link.active {
-    color: #0070f3;
-}

@@ -1,8 +1,22 @@
-.cast {
-    list-style: none;
-    padding-left: 0;
+/* src/components/MovieCast/MovieCast.module.css */
+.list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+}
+.item {
+    text-align: center;
+}
+.photo {
+    width: 100%;
+    border-radius: 8px;
+}
+.name {
+    font-weight: bold;
+    margin-top: 6px;
+}
+.char {
+    font-size: 13px;
+    color: #555;
 }
 
-.cast li {
-    margin-bottom: 20px;
-}

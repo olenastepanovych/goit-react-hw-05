@@ -1,66 +1,82 @@
-import { Suspense, useEffect, useRef, useState } from 'react';
+// src/pages/MovieDetailsPage/MovieDetailsPage.jsx
+import { useEffect, useRef, useState } from "react";
 import {
 Link,
 Outlet,
-useParams,
-useNavigate,
 useLocation,
-} from 'react-router-dom';
-import { getMovieDetails } from '../../App';
-import styles from './MovieDetailsPage.module.css';
+useNavigate,
+useParams,
+NavLink,
+} from "react-router-dom";
+import {
+getMovieDetails,
+getImageUrl,
+} from "../../services/api";
+import styles from "./MovieDetailsPage.module.css";
 
 function MovieDetailsPage() {
 const { movieId } = useParams();
 const [movie, setMovie] = useState(null);
 const location = useLocation();
-const backLinkRef = useRef(location.state?.from || '/movies');
 const navigate = useNavigate();
+const backLink = useRef(location.state?.from ?? "/movies");
 
 useEffect(() => {
     getMovieDetails(movieId).then(setMovie).catch(console.error);
 }, [movieId]);
 
-if (!movie) return <div>Loading...</div>;
+if (!movie) return <p>Loading movie...</p>;
 
-const { title, overview, poster_path, genres, vote_average } = movie;
+const {
+    title,
+    overview,
+    genres,
+    poster_path,
+    vote_average,
+    release_date,
+} = movie;
 
 return (
     <div className={styles.container}>
-    <button onClick={() => navigate(backLinkRef.current)} className={styles.back}>
-        Go back
+    <button className={styles.back} onClick={() => navigate(backLink.current)}>
+        ← Go back
     </button>
+
     <div className={styles.details}>
-        {poster_path && (
         <img
-            src={`https://image.tmdb.org/t/p/w300${poster_path}`}
-            alt={title}
-            className={styles.poster}
+        src={getImageUrl(poster_path)}
+        alt={title}
+        className={styles.poster}
         />
-        )}
         <div>
-        <h2>{title}</h2>
-          <p>User score: {Math.round(vote_average * 10)}%</p>
-        <h3>Overview</h3>
+        <h1>{title} ({release_date?.slice(0, 4)})</h1>
+          <p>User Score: {Math.round(vote_average * 10)}%</p>
+        <h2>Overview</h2>
         <p>{overview}</p>
         <h3>Genres</h3>
-        <p>{genres.map(g => g.name).join(', ')}</p>
+        <p>{genres.map((g) => g.name).join(", ")}</p>
         </div>
     </div>
 
     <div className={styles.links}>
-        <h3>Additional information</h3>
-        <ul>
-        <li><Link to="cast">Cast</Link></li>
-        <li><Link to="reviews">Reviews</Link></li>
-        </ul>
+        <NavLink to="cast" className={({ isActive }) => isActive ? styles.active : styles.link}>
+        Cast
+        </NavLink>
+        <NavLink to="reviews" className={({ isActive }) => isActive ? styles.active : styles.link}>
+        Reviews
+        </NavLink>
     </div>
 
-    <Suspense fallback={<div>Loading nested route...</div>}>
+    <div className={styles.nested}>
         <Outlet />
-    </Suspense>
+    </div>
     </div>
 );
 }
 
 export default MovieDetailsPage;
+
+
+
+
 

@@ -1,3 +1,9 @@
+/* src/pages/HomePage/HomePage.module.css */
 .container {
-    padding: 20px;
+    padding: 24px;
 }
+.heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
