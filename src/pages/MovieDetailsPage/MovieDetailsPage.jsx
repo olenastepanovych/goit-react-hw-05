@@ -1,82 +1,65 @@
-// src/pages/MovieDetailsPage/MovieDetailsPage.jsx
-import { useEffect, useRef, useState } from "react";
-import {
-Link,
-Outlet,
-useLocation,
-useNavigate,
-useParams,
-NavLink,
-} from "react-router-dom";
-import {
-getMovieDetails,
-getImageUrl,
-} from "../../services/api";
-import styles from "./MovieDetailsPage.module.css";
+import { useEffect, useState, useRef } from 'react';
+import { useParams, useLocation, Link, Outlet } from 'react-router-dom';
+import { getMovieDetails } from '../../services/api';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import styles from './MovieDetailsPage.module.css';
 
-function MovieDetailsPage() {
-const { movieId } = useParams();
-const [movie, setMovie] = useState(null);
-const location = useLocation();
-const navigate = useNavigate();
-const backLink = useRef(location.state?.from ?? "/movies");
+const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w500';
+const DEFAULT_IMG = 'https://dl-media.viber.com/10/share/2/long/vibes/icon/image/0x0/95e0/5688fdffb84ff8bed4240bcf3ec5ac81ce591d9fa9558a3a968c630eaba195e0.jpg';
 
-useEffect(() => {
-    getMovieDetails(movieId).then(setMovie).catch(console.error);
-}, [movieId]);
+const MovieDetailsPage = () => {
+  const { movieId } = useParams();
+  const location = useLocation();
+  const backLink = useRef(location.state ?? '/movies');
+  const [movie, setMovie] = useState(null);
+  const [error, setError] = useState(null);
 
-if (!movie) return <p>Loading movie...</p>;
+  useEffect(() => {
+    if (!movieId) return;
 
-const {
-    title,
-    overview,
-    genres,
-    poster_path,
-    vote_average,
-    release_date,
-} = movie;
+    getMovieDetails(movieId)
+      .then(data => {
+        setMovie(data);
+        setError(null);
+      })
+      .catch(() => setError('Failed to fetch movie details.'));
+  }, [movieId]);
 
-return (
-    <div className={styles.container}>
-    <button className={styles.back} onClick={() => navigate(backLink.current)}>
-        ← Go back
-    </button>
+  if (error) return <ErrorMessage message={error} />;
+  if (!movie) return null;
 
-    <div className={styles.details}>
+  return (
+    <main className={styles.container}>
+      <Link to={backLink.current}>← Go back</Link>
+
+      <div className={styles.details}>
         <img
-        src={getImageUrl(poster_path)}
-        alt={title}
-        className={styles.poster}
+          src={movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : DEFAULT_IMG}
+          alt={movie.title}
+          width={250}
         />
         <div>
-        <h1>{title} ({release_date?.slice(0, 4)})</h1>
-          <p>User Score: {Math.round(vote_average * 10)}%</p>
-        <h2>Overview</h2>
-        <p>{overview}</p>
-        <h3>Genres</h3>
-        <p>{genres.map((g) => g.name).join(", ")}</p>
+          <h2>{movie.title}</h2>
+          <p>User score: {Math.round(movie.vote_average * 10)}%</p>
+          <h3>Overview</h3>
+          <p>{movie.overview}</p>
+          <h3>Genres</h3>
+          <p>{movie.genres.map(g => g.name).join(', ')}</p>
         </div>
-    </div>
+      </div>
 
-    <div className={styles.links}>
-        <NavLink to="cast" className={({ isActive }) => isActive ? styles.active : styles.link}>
-        Cast
-        </NavLink>
-        <NavLink to="reviews" className={({ isActive }) => isActive ? styles.active : styles.link}>
-        Reviews
-        </NavLink>
-    </div>
-
-    <div className={styles.nested}>
-        <Outlet />
-    </div>
-    </div>
-);
-}
+      <hr />
+      <div>
+        <p>Additional information</p>
+        <ul>
+          <li><Link to="cast">Cast</Link></li>
+          <li><Link to="reviews">Reviews</Link></li>
+        </ul>
+      </div>
+      <hr />
+      <Outlet />
+    </main>
+  );
+};
 
 export default MovieDetailsPage;
-
-
-
-
-

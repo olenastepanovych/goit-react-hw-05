@@ -1,40 +1,10 @@
-/* src/pages/MovieDetailsPage/MovieDetailsPage.module.css */
 .container {
-    padding: 24px;
+    padding: 20px;
 }
-.back {
-    margin-bottom: 20px;
-    background: none;
-    border: none;
-    color: #0077cc;
-    cursor: pointer;
-    font-size: 16px;
-}
+
 .details {
     display: flex;
     gap: 24px;
-    margin-bottom: 24px;
-}
-.poster {
-    width: 250px;
-    border-radius: 12px;
-}
-.links {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 16px;
-}
-.link {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-}
-.active {
-    color: #01b4e4;
-    border-bottom: 2px solid #01b4e4;
-}
-.nested {
-    padding-top: 16px;
-    border-top: 1px solid #ccc;
+    margin-top: 20px;
 }
 

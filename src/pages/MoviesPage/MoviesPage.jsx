@@ -1,47 +1,40 @@
-// src/pages/MoviesPage/MoviesPage.jsx
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { searchMovies } from "../../services/api";
-import MovieList from "../../components/MovieList/MovieList";
-import styles from "./MoviesPage.module.css";
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { searchMovies } from '../../services/api';
+import SearchForm from '../../components/SearchForm/SearchForm';
+import MovieList from '../../components/MovieList/MovieList';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import styles from './MoviesPage.module.css';
 
-function MoviesPage() {
-const [searchParams, setSearchParams] = useSearchParams();
-const [movies, setMovies] = useState([]);
-const query = searchParams.get("query") || "";
+const MoviesPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
 
-const handleSubmit = (e) => {
-    e.preventDefault();
-    const value = e.target.elements.query.value.trim();
-    if (value === "") return;
+  const query = searchParams.get('query') || '';
+
+  const handleSubmit = (value) => {
     setSearchParams({ query: value });
+  };
+
+  useEffect(() => {
+    if (!query) return;
+
+    searchMovies(query)
+      .then(data => {
+        setMovies(data.results);
+        setError(null);
+      })
+      .catch(() => setError('Failed to fetch movies.'));
+  }, [query]);
+
+  return (
+    <main className={styles.container}>
+      <SearchForm onSubmit={handleSubmit} />
+      {error && <ErrorMessage message={error} />}
+      <MovieList movies={movies} />
+    </main>
+  );
 };
 
-useEffect(() => {
-    if (!query) return;
-    searchMovies(query).then(setMovies).catch(console.error);
-}, [query]);
-
-return (
-    <div className={styles.container}>
-    <form onSubmit={handleSubmit} className={styles.form}>
-        <input
-        name="query"
-        defaultValue={query}
-        className={styles.input}
-        placeholder="Search movies..."
-        autoComplete="off"
-        />
-        <button type="submit" className={styles.button}>
-        Search
-        </button>
-    </form>
-    <MovieList movies={movies} />
-    </div>
-);
-}
-
 export default MoviesPage;
-
-
-

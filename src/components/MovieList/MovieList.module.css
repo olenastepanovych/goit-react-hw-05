@@ -1,25 +1,25 @@
-/* src/components/MovieList/MovieList.module.css */
 .list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 16px;
-    padding: 16px;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0;
 }
 
 .item {
-    list-style: none;
     text-align: center;
+    max-width: 250px;
+    border: 1px solid #684fb9;
+
+    &:hover,
+    &:focus {
+    border-color: #684fb9;
+    transform: scale(1.02);
+}
 }
 
 .poster {
     width: 100%;
-    height: auto;
-    border-radius: 8px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px #000;
 }
-
-.title {
-    margin-top: 8px;
-    font-weight: 600;
-    font-size: 14px;
-}
-

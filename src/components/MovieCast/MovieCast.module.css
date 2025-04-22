@@ -1,22 +1,52 @@
-/* src/components/MovieCast/MovieCast.module.css */
+.cast {
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+gap: 40px;
+justify-content: center;
+}
+
 .list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0;
+    list-style: none;
 }
+
 .item {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 220px;
+    height: 300px;
+    padding: 0 5px;
+    box-shadow: rgba(72, 6, 6, 0.35) 0px 3px 10px;
+
+    &:hover,
+    &:focus {
+    border-color: #753d3d;
+    transform: scale(1.03);
 }
-.photo {
-    width: 100%;
-    border-radius: 8px;
 }
+
+.img {
+    width: 120px;
+    height: 180px;
+    padding-top: 15px;
+}
+
 .name {
-    font-weight: bold;
-    margin-top: 6px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
 }
-.char {
-    font-size: 13px;
-    color: #555;
+
+.character {
+    font-size: 14px;
+    margin-bottom: 10px;
 }
 

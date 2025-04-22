@@ -1,20 +1,17 @@
-// src/components/Navigation/Navigation.jsx
-import { NavLink } from "react-router-dom";
-import styles from "./Navigation.module.css";
+import { NavLink } from 'react-router-dom';
+import styles from './Navigation.module.css';
 
-function Navigation() {
-return (
+const Navigation = () => {
+  return (
     <nav className={styles.nav}>
-    <NavLink to="/" className={({ isActive }) => isActive ? styles.active : styles.link}>
+      <NavLink to="/" className={styles.link}>
         Home
-    </NavLink>
-    <NavLink to="/movies" className={({ isActive }) => isActive ? styles.active : styles.link}>
+      </NavLink>
+      <NavLink to="/movies" className={styles.link}>
         Movies
-    </NavLink>
+      </NavLink>
     </nav>
-);
-}
+  );
+};
 
 export default Navigation;
-
-

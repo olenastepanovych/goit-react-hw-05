@@ -1,25 +1,35 @@
-// src/pages/HomePage/HomePage.jsx
-import { useEffect, useState } from "react";
-import { getTrendingMovies } from "../../services/api";
-import MovieList from "../../components/MovieList/MovieList";
-import styles from "./HomePage.module.css";
+import { useEffect, useState } from 'react';
+import { getTrendingMovies } from '../../services/api';
+import MovieList from '../../components/MovieList/MovieList';
+import styles from './HomePage.module.css';
 
-function HomePage() {
-const [movies, setMovies] = useState([]);
+const HomePage = () => {
+  const [movies, setMovies] = useState([]);
+  const [page, setPage] = useState(1);
 
-useEffect(() => {
-    getTrendingMovies().then(setMovies).catch(console.error);
-}, []);
+  useEffect(() => {
+    getTrendingMovies(page).then(data => {
+      setMovies(prev => [...prev, ...data.results]);
+    });
+  }, [page]);
 
-return (
-    <div className={styles.container}>
-    <h1 className={styles.heading}>Trending Today</h1>
-    <MovieList movies={movies} />
-    </div>
-);
-}
+  const handleLoadMore = () => {
+    setPage(prev => prev + 1);
+  };
+
+  return (
+    <main className={styles.container}>
+      <h1>Trending today</h1>
+      <MovieList movies={movies} />
+
+      {movies.length > 0 && (
+        <button className={styles.loadBtn} onClick={handleLoadMore}>
+          Load more
+        </button>
+      )}
+    </main>
+  );
+};
 
 export default HomePage;
-
-
 
