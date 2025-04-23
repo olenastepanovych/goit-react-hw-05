@@ -9,7 +9,7 @@ import styles from './MoviesPage.module.css';
 const MoviesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [movies, setMovies] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
 
   const query = searchParams.get('query') || '';
 

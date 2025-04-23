@@ -23,3 +23,16 @@
     border-radius: 10px;
     box-shadow: 0 0 5px #000;
 }
+
+
+.item a {
+    text-decoration: none;
+    color: #684fb9;
+    font-size: 18px;     
+    display: block;
+    transition: transform 0.2s;
+}
+
+.item a:hover {
+    transform: scale(1.03);
+}
